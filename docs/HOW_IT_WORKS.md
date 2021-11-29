@@ -281,17 +281,17 @@ In case there is need to re-image your current Pi or add another smart mirror to
 1. Install new Pi OS 
 
 > NOTE! Use unique/new hostname) 
-* Follow [Raspberry Pi OS Setup link on HW documentation](docs/SMARTHW.md#Raspberry-Pi-OS-Setup)
+* Follow [Raspberry Pi OS Setup link on HW documentation](SMARTHW.md#Raspberry-Pi-OS-Setup)
 
 2. Deploy SSM Parameters for new Smart Mirror device 
-* Follow [Execute Cloudformation for SSM Parameters](docs/SMARTMIRROR.md#Execute-AWS-CloudFormation-to-create-Parameter-Store-Parameters-for-Smart-Mirror)
+* Follow [Execute Cloudformation for SSM Parameters](SMARTMIRROR.md#Execute-AWS-CloudFormation-to-create-Parameter-Store-Parameters-for-Smart-Mirror)
 
 3. Install SSM Agent on Raspberry Pi and configure SSM project and name tags
 
 > NOTE! Make sure you have valid Activation Code for Hybrid Activation - if not create new one, see
-[Create Hybrid Activation for SSM](docs/SMARTMIRROR.md#Create-an-Hybrid-Activation-in-AWS-Systems-Manager)
+[Create Hybrid Activation for SSM](SMARTMIRROR.md#Create-an-Hybrid-Activation-in-AWS-Systems-Manager)
 
-* Follow [Configure SSM Agent for your Raspberry PI](docs/SMARTMIRROR.md#Configure-Systems-Manager-Agent-for-your-Raspberry-Pi) also add necessary Tags
+* Follow [Configure SSM Agent for your Raspberry PI](SMARTMIRROR.md#Configure-Systems-Manager-Agent-for-your-Raspberry-Pi) also add necessary Tags
 
 5. Trigger code build in your pipeline to get SW in device - you can do this by committing/pushing change in your repo or just re-trigger some previous deployment in AWS CodeDeploy with "Release change"
 
@@ -301,7 +301,7 @@ After this Smart Mirror SW is automatically deployed to your new Raspberry Pi (Y
 
 > NOTE! If this same device you re-deployed then remove BT pairing from Echo before re-registering
 
-* Follow [Configure Alexa Gadget and Bluetooth](docs/SMARTMIRROR.md#Configure-Alexa-Gadget-in-Raspberry-Pi-and-BT-pairing-with-Echo)
+* Follow [Configure Alexa Gadget and Bluetooth](SMARTMIRROR.md#Configure-Alexa-Gadget-in-Raspberry-Pi-and-BT-pairing-with-Echo)
 
 # Clean up of Smart Mirror AWS Infrastructure and services
 
