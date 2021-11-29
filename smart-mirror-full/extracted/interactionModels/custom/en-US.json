@@ -1,0 +1,143 @@
+{
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "unicorn",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": [
+                        "stop blinking",
+                        "stop",
+                        "turn off lights",
+                        "turn off leds",
+                        "dark mode"
+                    ]
+                },
+                {
+                    "name": "ShowColor",
+                    "slots": [
+                        {
+                            "name": "Color",
+                            "type": "AMAZON.Color"
+                        }
+                    ],
+                    "samples": [
+                        "Show color {Color}",
+                        "{Color} color",
+                        "Change color to {Color}",
+                        "Turn color to {Color}"
+                    ]
+                }
+                ,
+                {
+                    "name": "ShowRainbow",
+                    "slots": [],
+                    "samples": [
+                        "show rainbow",
+                        "rainbow"
+                    ]
+                },
+                {
+                    "name": "BlinkPolice",
+                    "slots": [],
+                    "samples": [
+                        "what you gonna do",
+                        "police",
+                        "woop woop",
+                        "who is that",
+                        "it's the sound of da police"
+                    ]
+                },
+                {
+                    "name": "ShowClock",
+                    "slots": [],
+                    "samples": [
+                        "clock",
+                        "show clock",
+                        "how plenty is the bell",
+                        "time",
+                        "what is the time"
+                    ]
+                },
+                {
+                    "name": "MirrorMirror",
+                    "slots": [
+                        {
+                            "name": "Name",
+                            "type": "AMAZON.FirstName",
+                            "samples": [
+                                "I'm {Name}",
+                                "I am called {Name}",
+                                "{Name}",
+                                "My name is {Name}"
+                            ]
+                        }
+                    ],
+                    "samples": [
+                        "Mirror Mirror on the wall. Who is the fairest of them all",
+                        "Who is the prettiest",
+                        "Mirror who is the fairest"
+                    ]
+                }
+            ],
+            "types": []
+        },
+        "dialog": {
+            "intents": [
+                {
+                    "name": "MirrorMirror",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "Name",
+                            "type": "AMAZON.FirstName",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.1140735008465.313652348064"
+                            }
+                        }
+                    ]
+                }
+            ],
+            "delegationStrategy": "ALWAYS"
+        },
+        "prompts": [
+            {
+                "id": "Elicit.Slot.1140735008465.313652348064",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "Tell me what you are called?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "I think I know where this is going. What's your name?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "ok, what is your name please?"
+                    }
+                ]
+            },
+            {
+                "id": "Confirm.Slot.1140735008465.313652348064",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "It is you {Name} that is the fairest of them all"
+                    }
+                ]
+            }
+        ]
+    }
+}

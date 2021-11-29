@@ -1,0 +1,30 @@
+{
+  "manifest": {
+    "publishingInformation": {
+      "locales": {
+        "en-US": {
+          "summary": "A skill to interact with your simple smart mirror",
+          "examplePhrases": [
+            "Alexa open unicorn"
+          ],
+          "name": "smart mirror a.k.a unicorn",
+          "description": "A skill to interact with your simple smart mirror. For more information visit simple-smart-mirror.com"
+        }
+      },
+      "isAvailableWorldwide": true,
+      "testingInstructions": "Please see example phrases. You can also ask for help once the skill is invoked.",
+      "category": "EDUCATION_AND_REFERENCE",
+      "distributionCountries": []
+    },
+    "apis": {
+      "custom": {
+        "interfaces":  [
+          {
+            "type": "CUSTOM_INTERFACE"
+          }
+        ]
+      }      
+    },
+    "manifestVersion": "1.0"
+  }
+}

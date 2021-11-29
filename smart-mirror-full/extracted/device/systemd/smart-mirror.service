@@ -1,0 +1,14 @@
+[Unit]
+Description=Initialize Smart-mirror on boot
+After=multi-user.target
+[Service]
+RemainAfterExit=yes
+ExecStart=/usr/bin/python3 /home/smart-mirror/script/smart_mirror_service_start.py
+ExecStop=/usr/bin/python3 /home/smart-mirror/script/smart_mirror_service_stop.py
+ExecReload=/usr/bin/python3 /home/smart-mirror/script/smart_mirror_service_start.py
+User=root
+EnvironmentFile=/home/smart-mirror/region.conf
+[Install]
+WantedBy=multi-user.target
+
+

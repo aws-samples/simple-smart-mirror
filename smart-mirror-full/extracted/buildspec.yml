@@ -1,0 +1,27 @@
+#
+# Copyright 2019 Amazon.com, Inc. or its affiliates.  All Rights Reserved.
+# These materials are licensed under the Amazon Software License in connection with the Alexa Gadgets Program.
+# The Agreement is available at https://aws.amazon.com/asl/.
+# See the Agreement for the specific terms and conditions of the Agreement.
+# Capitalized terms not defined in this file have the meanings given to them in the Agreement.
+#
+
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.8
+  build:
+    commands:
+      - pip install -r lambda/custom/requirements.txt -t lambda/custom
+      - pip install --upgrade awscli
+      - aws cloudformation package --template template.yml --s3-bucket $S3_BUCKET --output-template template-export.yml
+      # Do not remove this statement. This command is required for AWS CodeStar projects.
+      # Update the AWS Partition, AWS Region, account ID and project ID in the project ARN on template-configuration.json file so AWS CloudFormation can tag project resources.
+      - sed -i.bak 's/\$PARTITION\$/'${PARTITION}'/g;s/\$AWS_REGION\$/'${AWS_REGION}'/g;s/\$ACCOUNT_ID\$/'${ACCOUNT_ID}'/g;s/\$PROJECT_ID\$/'${PROJECT_ID}'/g' template-configuration.json
+
+artifacts:
+  files:
+    - template-export.yml
+    - template-configuration.json

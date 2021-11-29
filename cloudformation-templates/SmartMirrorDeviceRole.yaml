@@ -1,0 +1,69 @@
+Description: Adds the necessary role to deploy code to your raspberry pi
+Resources:
+  SmartMirrorDeviceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: SmartMirrorDeviceRole
+      Description: Role that allows the raspberry pi to read its parameters from parameter store and for codedeploy to deploy changes to the raspberry pi
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service:
+                - ssm.amazonaws.com
+            Action:
+              - 'sts:AssumeRole'
+      Tags:
+        - Key: "project"
+          Value: "smart-mirror"
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AWSCodeDeployFullAccess
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Policies:
+        - PolicyName: smart-mirror-parameterstore-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+            - Effect: Allow
+              Action:
+              - ssm:GetParametersByPath
+              - ssm:GetParameters
+              - ssm:GetParameter
+              Resource: !Sub "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/smart-mirror/device/*"
+        - PolicyName: smart-mirror-codestar-policy
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action:
+                - codecommit:GitPull
+                - codecommit:GitPush
+                Resource: !Sub "arn:aws:codecommit:${AWS::Region}:${AWS::AccountId}:smart-mirror"
+              - Effect: Allow
+                Action:
+                - s3:ListStorageLensConfigurations
+                - s3:ListAccessPointsForObjectLambda
+                - s3:GetAccessPoint
+                - s3:GetAccountPublicAccessBlock
+                - s3:ListAllMyBuckets
+                - s3:ListAccessPoints
+                - s3:ListJobs
+                Resource:
+                - !Sub "arn:aws:s3:::aws-codestar-${AWS::Region}-${AWS::AccountId}-smart-mirror-pipe"
+                - !Sub "arn:aws:s3:::aws-codestar-${AWS::Region}-${AWS::AccountId}-smart-mirror-pipe/*"
+              - Effect: Allow
+                Action: sts:AssumeRole
+                Resource: !Sub "arn:aws:iam::${AWS::AccountId}:role/SmartMirrorDeviceRole"
+              - Effect: Allow
+                Action:
+                - s3:Get*
+                - s3:List*
+                Resource:
+                - !Sub "arn:aws:s3:::aws-codedeploy-${AWS::Region}"
+                - !Sub "arn:aws:s3:::aws-codedeploy-${AWS::Region}/*"
+                - !Sub "arn:aws:s3:::aws-codestar-${AWS::Region}-${AWS::AccountId}-smart-mirror-pipe"
+                - !Sub "arn:aws:s3:::aws-codestar-${AWS::Region}-${AWS::AccountId}-smart-mirror-pipe/*"
+      
+
+  

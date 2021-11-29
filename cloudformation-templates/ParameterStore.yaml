@@ -1,0 +1,72 @@
+Description: Adds parameters to AWS Systems Manager Parameter Store
+Parameters:
+  DeviceName:
+    Type: String
+    Default: smart-mirror
+    Description: Your Raspberry Pi hostname - default is smart-mirror
+  LedCount:
+    Type: String
+    Default: 60
+    Description: LED Count in your LED strip
+  LedGPIO:
+    Type: String
+    Default: 21
+    Description: Used GPIO PIN in your Raspberry Pi
+  AmazonId:
+    Type: String
+    Description: Amazon ID From Alexa Voice Services Product
+  AlexaGadgetSecret:
+    Type: String
+    Description: Alexa Gadget Sercret From Alexa Voice Services Product
+  LedType:
+    Type: String
+    Default: RGB
+    Description: Type of your LED Strip
+    AllowedValues:
+      - RGB
+      - RGBW
+      - GRB
+      - GRBW
+
+Resources:
+  LedCountParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Join ['',['/smart-mirror/device/', !Ref DeviceName, '/led/count']]
+      Description: LED Count in your LED strip
+      Tier: Standard
+      Type: String
+      Value: !Ref LedCount
+  LedTypeParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Join ['',['/smart-mirror/device/', !Ref DeviceName, '/led/type']]
+      Description: Type of your LED Strip
+      Tier: Standard
+      Type: String
+      Value: !Ref LedType
+  LedGPIOParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Join ['',['/smart-mirror/device/', !Ref DeviceName, '/led/gpio']]
+      Description: Used GPIO PIN in Raspberry Pi
+      Tier: Standard
+      Type: String
+      Value: !Ref LedGPIO
+  AmazonIdParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Join ['',['/smart-mirror/device/', !Ref DeviceName, '/alexagadget/amazon_id']]
+      Description: Amaxon ID From Alexa Voice Services Product
+      Tier: Standard
+      Type: String
+      Value: !Ref AmazonId
+  AlexaGadgetSecretParameter:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Name: !Join ['',['/smart-mirror/device/', !Ref DeviceName, '/alexagadget/alexa_gadget_secret']]
+      Description: Alexa Gadget Sercret From Alexa Voice Services Product
+      Tier: Standard
+      Type: String
+      Value: !Ref AlexaGadgetSecret
+  

@@ -1,0 +1,59 @@
+Description:  >-
+  Deploys association that installs CodeDeploy agent on instances with matching tag: project:smart-mirror
+Resources:
+  CodeDeployAssociationLogs:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+  CodeDeployAssociation:
+    # CloudFormation Resource Type that creates State Manager Associations
+    Type: AWS::SSM::Association
+    Properties:
+      # Command Document that this Association will run
+      Name: AWS-RunShellScript
+      WaitForSuccessTimeoutSeconds: 300
+      # Targeting Instance by Tags
+      Targets:
+        - Key: tag:project
+          Values:
+            - 'smart-mirror'
+      # The passing in the S3 Bucket that is created in the template that logs will be sent to
+      OutputLocation:
+        S3Location: 
+          OutputS3BucketName: !Ref CodeDeployAssociationLogs
+          OutputS3KeyPrefix: 'logs/'
+      # Parameters for the AWS-RunShellScript, in this case commands to install nginx
+      Parameters:
+        commands: 
+          - !Sub |
+              sudo -i
+              export AWS_REGION=${AWS::Region}
+              mkdir -p /home/smart-mirror
+              echo "AWS_REGION=${AWS::Region}" > /home/smart-mirror/region.conf
+              hostname=$(hostname)
+              mkdir -p /tmp/smart-mirror
+              cd /tmp/smart-mirror
+              echo "installing code deploy agent"
+              apt-get -y update
+              apt-get -y install ruby
+              wget https://aws-codedeploy-${AWS::Region}.s3.amazonaws.com/latest/install
+              chmod +x ./install
+              ./install auto
+              pip3 install --upgrade awscli
+              gem install aws-codedeploy-session-helper
+              /usr/local/bin/get_sts_creds --role-arn arn:aws:iam::${AWS::AccountId}:role/SmartMirrorDeviceRole --file /home/smart-mirror/CodeDeployCreds --print-session-arn --region ${AWS::Region}
+              echo "---" > /etc/codedeploy-agent/conf/codedeploy.onpremises.yml
+              echo "iam_session_arn: arn:aws:sts::${AWS::AccountId}:assumed-role/SmartMirrorDeviceRole/$hostname" >> /etc/codedeploy-agent/conf/codedeploy.onpremises.yml
+              echo "aws_credentials_file: /home/smart-mirror/CodeDeployCreds" >> /etc/codedeploy-agent/conf/codedeploy.onpremises.yml
+              echo "region: ${AWS::Region}" >> /etc/codedeploy-agent/conf/codedeploy.onpremises.yml
+              aws deploy register-on-premises-instance --instance-name $hostname --iam-session-arn arn:aws:sts::${AWS::AccountId}:assumed-role/SmartMirrorDeviceRole/$hostname --region ${AWS::Region}
+              aws deploy add-tags-to-on-premises-instances --instance-names $hostname --tags Key=project,Value=smart-mirror --region ${AWS::Region}
+              service codedeploy-agent start              
+              cd /etc/codedeploy-agent/conf
+              crontab -l > credcron
+              echo "0,15,30,45 * * * * /usr/local/bin/get_sts_creds --role-arn arn:aws:iam::${AWS::AccountId}:role/SmartMirrorDeviceRole --file /home/smart-mirror/CodeDeployCreds --print-session-arn --region ${AWS::Region}" >> credcron
+              echo "@reboot sleep 20 && /usr/local/bin/get_sts_creds --role-arn arn:aws:iam::${AWS::AccountId}:role/SmartMirrorDeviceRole --file /home/smart-mirror/CodeDeployCreds --print-session-arn --region ${AWS::Region}" >> credcron
+              crontab credcron
