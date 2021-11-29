@@ -51,7 +51,7 @@ Shopping List - with Amazon.com examples - please use shop near you:
     * [Amazon.com](https://www.amazon.com/Adafruit-Indust-Digital-Weatherproof-LED-1m/dp/B01KHWGVJ4/ref=sr_1_7?keywords=neopixel+1m+60&qid=1637236557&sr=8-7)
 * Raspberry Pi 4 model B 8 GB: (4GB model or even Raspberry Pi 3 should also work, but see GPIO ports is using PI 3)
     * [Amazon.com](https://www.amazon.com/Raspberry-Model-2019-Quad-Bluetooth/dp/B07TC2BK1X/)
-* Raspberry Pi Power Supply (USB C, 5V 3+A)
+* Raspberry Pi Power Supply (USB C, 5V 3+A) - please use good quality power supply to have enough power for 60 LEDs
     * [Amazon.com](https://www.amazon.com/Raspberry-Power-Supply-USB-C-Listed/dp/B07Z8P61DQ/)
 * SD Card: 
     * [Amazon.com](https://www.amazon.com/16GB-Raspberry-Preloaded-Noobs-Card/dp/B07GTDD1L5/)

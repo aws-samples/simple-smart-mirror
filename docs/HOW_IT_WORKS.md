@@ -24,9 +24,9 @@ Table of contents:
 
 ## Developing new capabilities and intents
 
-How you develop new capabilities depends on complexity of your ideas which in turn is limitless and part of the learning experience. As part of this instruction we will focus on ideas that will use LED strip as primary output to simplify the first steps.
+How you develop a new capabilities depends on complexity of your ideas which in turn is limitless and part of the learning experience. As part of these instruction we will focus on ideas that will use LED strip as primary output to simplify the first steps.
 
-We assume that you are at a stage where you have followed the setup instructions to set up and connect your raspberry pi with LED strip and paired it with your Echo device and you can successfully run supplied demo intents like "rainbow" or "help". (Saying: "Alexa, unicorn", followed by intent like "help"), and have your code deploy/star-project set up.
+We assume that you are at a stage where you have followed the setup instructions to set up and connect your Raspberry Pi with a LED strip, paired it with your Echo device and you can successfully run supplied demo intents like "rainbow" or "help". By saying: "Alexa, unicorn", followed by an intent like "help", and have your codestar project set up as instructed.
 
 If you are not at that stage use setup instructions from README.md to set your environment.
 
@@ -36,19 +36,19 @@ Following instructions are just a simple ideas to get you started, but the point
 
 1. First step in developing new capabilities of the skill is to create the code that will control the LED strip on the Raspberry Pi.
 2. Second step is to call that code from the "Alexa Gadget" service on Raspberry Pi. This is the glue between the Alexa-skill intent (a command) and the LED control code. 
-3. Third step is to implement Lambda handler for the intent
-4. Fourth step is to create an Alexa intent that will trigger the Lambda handler
+3. Third step is to implement Lambda handler for the intent.
+4. Fourth step is to create an Alexa intent that will trigger the Lambda handler.
 
 ## Develop new capabilities of the skill
 
-LED is essentially controlled by the smart-mirror service on the Raspberry Pi. The code for service is located in Git repo:```device/startup/script```.
+LED is controlled by the smart-mirror service on the Raspberry Pi. The code for service is located in Git repo:```device/script```.
 
 Main components to control the LED are ```agt_smart_mirror.py``` (the service core) and ```smart_mirror.py``` (LED control implementation).
 
 To control the LED in ```smart_mirror.py``` we use Neopixel library. In the file you will find some convenience methods that you can use during your own implementation, such as:
 ```reset()``` - turns off all the pixels
 ```showColor()``` - shows a color using all the pixels (whole LED strip)
-```turnon()``` - turns on a given pixel with given color
+```showPixel()``` - turns on a given pixel with given color
 
 Few LED control examples are also implemented such as:
 ```rainbow_cycle()``` - cycles a rainbow colors
@@ -56,20 +56,20 @@ Few LED control examples are also implemented such as:
 
 ### While developing
 
-During the development of the code, you want to have git repository checked out on Cloud9 IDE or on your local computer. Any code changes you will commit to the git repository and that code will be pushed to the raspberry pi. However, while experimenting with small code changes and learning how details affect the behaviour of your LED it may be tedious to wait for the change->commit->pipeline->deploy->call Alexa to execute cycle. To test the code on Raspberry Pi login to the Raspberry Pi either using ```ssh``` or through IDE of your choise. 
+During the development of the code, you want to have git repository checked out on Cloud9 IDE or on your local computer. Any code changes you will commit to the git repository and that code will be pushed to the Raspberry Pi. However, while experimenting with small code changes and learning how details affect the behavior of your LED it may be tedious to wait for the change->commit->pipeline->deploy->call Alexa to execute cycle. To test the code on Raspberry Pi login to the Raspberry Pi either using ```ssh``` or through IDE of your choice. 
 
 The service code is deployed in /home/smart-mirror/script. Implement your code in ```smart_mirror.py``` as a new method. Test your code by calling that method from ```test.py```.
 
 ### Best practice for LED control code
 
-The LED control code method in ```smart_mirror.py``` will be executed continously by ```agt_smart_mirror.py``` (until Alexa is told to stop) in a separate thread. While the method is executing the service is "blocked" from accepting input.
-The best user experience of the skill is achieved when user can at any time say "Alexa stop" and the assistant is immediately (within a second or two) able to cancel whatever the device is doing. This is why it's important to keep the execution of methods in ```smart_mirror.py``` as short as possible. Depending of the idea this means that any states, if they are needed, should be kept in ```agt_smart_mirror.py``` and passed to the method in ```smart_mirror.py``` upon each execution. To be able to have capability that runs "forever" until interrupted by the user we execute this in a loop (see loop()) and control the interuption by the user with global variables. (see `self.keep_cycling`, `self.startAction()`, `self.stopAction()`).
+The LED control code method in ```smart_mirror.py``` will be executed continuously by ```agt_smart_mirror.py``` (until Alexa is told to stop) in a separate thread. While the method is executing the service is "blocked" from accepting input.
+The best user experience of the skill is achieved when user can at any time say "Alexa stop" and the assistant is immediately (within a second or two) able to cancel whatever the device is doing. This is why it's important to keep the execution of methods in ```smart_mirror.py``` as short as possible. Depending of the idea this means that any states, if they are needed, should be kept in ```agt_smart_mirror.py``` and passed to the method in ```smart_mirror.py``` upon each execution. To be able to have capability that runs "forever" until interrupted by the user we execute this in a loop (see loop()) and control the interruption by the user with global variables. (see `self.keep_cycling`, `self.startAction()`, `self.stopAction()`).
 
-Good examples to study this are the methods ```clock()``` that quickly calculates what 3 pixels to light and does that and exits. Similarly ```police()``` simulates a light pattern that executes in few seconds and exits and is then repeated by the ```agt_smart_mirror.py```
+Good examples to study this are the methods (when implemented) ```clock()``` that quickly calculates what 3 pixels to light and does that and exits. Similarly ```police()``` simulates a light pattern that executes in few seconds and exits and is then repeated by the ```agt_smart_mirror.py```
 
 ## Integrate the method with the "Alexa Gadget"-service (smart-mirror service)
 
-An Alexa intent will delivered as "directive" through the bluetooth connection to Echo Dot. Smart-mirror service (```agt_smart_mirror.py```) will interpret that directive and execute the corresponding LED control code.
+An Alexa intent will delivered as "directive" through the bluetooth connection to Amazon Echo. Smart-mirror service (```agt_smart_mirror.py```) will interpret that directive and execute the corresponding LED control code.
 
 To build that you will need to do following:
 1. Define an "Action" in the "Actions" enumeration. (use unique integer). This is used by help function "startAction(Action)" later.
@@ -93,7 +93,7 @@ Add your own action to the end of the list and increment the number.
 
 ### Define a directive handler to trigger the ```startAction```
 
-Name of the directive handler should follow following pattern ```on_<Namespace>_<Directive>()```. The current namespeace configured in ```device/bootstrap/startup/script/startup_service.ini``` in section GadgetCapabilities is Custom.SmartMirror. This translates into ```on_custom_smartmirror_<Directive>()```. (Replace <Directive> with your own directive name in lowercase). In it's simplest form, this would be calling ```self.startAction(Actions.<YourAction>)```.
+Name of the directive handler should follow following pattern ```on_<Namespace>_<Directive>()```. The current namespeace configured in ```device/script/startup_service.ini``` in section GadgetCapabilities is Custom.SmartMirror. This translates into ```on_custom_smartmirror_<Directive>()```. (Replace <Directive> with your own directive name in lowercase). In it's simplest form, this would be calling ```self.startAction(Actions.<YourAction>)```.
 
 Name of the directive, which you would be using to replace <Directive> in code above needs to be the same name that we will use in the Lambda intent/request handler.
 
@@ -131,7 +131,7 @@ Add your function call to `if self.keep_cycling:` block. Make sure the function 
 
 The skill is configured to call a specific Lambda function to handle all intents. In that Lambda we need to implement handlers for each intent. Lambda code should construct a directive and package it into a response to return to the Assistant which will then call appropriate directive handler function on the "Gadget" (Raspberry pi) once deployed. 
 
-In current implementation, to simplify the code, building directives is broken out from handlers to helper functions like `build_rainbow_directive()` and `build_police_directive()`. There is no requirement to keep this pattern but it's recommended for code readibility.
+In current implementation, to simplify the code, building directives is broken out from handlers to helper functions like `build_rainbow_directive()` and `build_police_directive()`. There is no requirement to keep this pattern but it's recommended for code readability.
 
 In it's simplest form, building a directive or can be accomplished with following method:
 
@@ -143,8 +143,8 @@ def build_my_directive(endpoint_id):
         payload={}
     )
 ```
-`<MyDirective>` in the method must be replaced with your chosen directive name that you used in `agt_smart_mirror.py` (2.2 Define a directive handler to trigger the `startAction`). 
-Namespace is currently 'Custom.SmartMirror' and it must be the same as configured in `device/bootstrap/startup/script/src/startup_service.ini` under [GadgetCapabilities]. Directive handler functions in `agt_smart_mirror.py` also follow nomenclature `on_<namespace>_<directive>()` where <namespace> is configured Namespace in lowercase and point (`.`) replaced with underscore `_`. (`on_custom_smartmirror_<directive>`)
+`<MyDirective>` in the method must be replaced with your chosen directive name that you used in `agt_smart_mirror.py` (Define a directive handler to trigger the `startAction`). 
+Namespace is currently 'Custom.SmartMirror' and it must be the same as configured in `device/script/src/startup_service.ini` under [GadgetCapabilities]. Directive handler functions in `agt_smart_mirror.py` also follow nomenclature `on_<namespace>_<directive>()` where <namespace> is configured Namespace in lowercase and point (`.`) replaced with underscore `_`. (`on_custom_smartmirror_<directive>`)
 
 Now that the directive helper is done we can implement the handler with following code:
 
@@ -190,7 +190,7 @@ return (response_builder
 
 ### Create an Alexa intent that will trigger the Lambda handler
 
-Final step is to create the intent. 
+Final step is to create the intent.
 
 In `interactionModels/custom/en-US.json` add following code to `interactionModel.languageModel.intents[]`-array:
 
@@ -209,7 +209,7 @@ In `interactionModels/custom/en-US.json` add following code to `interactionModel
 ```
 Change the `<MyIntent>` to your intent name you chose previously when you implemented intent handler in the Lambda function (in 3. Implement Lambda handler for the intent) 
 
-And this is it. You can now commit the code and let the CodeDeploy deploy it. This can normally take up to 10 minutes before all changes are deployed.
+And this is it. You can now commit the code and let the CodeDeploy deploy it. This can normally take up to 5-10 minutes before all changes are deployed.
 
 # Smart Mirror Raspberry Pi service overview 
 
@@ -257,7 +257,7 @@ sudo systemctl start smart-mirror
 
 Config file for bluetooth setup /home/smart-mirror/script/src/.agt.json
  
- You can delete this if you need to re-run the setup_gadget.py - in case for example when chancing Echo device - if changing device remember to "forget" the AGT from original echo first!
+ You can delete this if you need to re-run the setup_gadget.py - for example in case if changing Echo device - When changing device remember to "forget" the AGT from original echo first!
 
 re-run BT / AGT setup:
 
@@ -272,7 +272,7 @@ Start Smart Mirror service after setup is successful:
 sudo systemctl start smart-mirror
 ```
 
-Re-pair your gadget to Alexa Echo if needed
+Re-pair your gadget to Alexa Echo over BT if needed
 
 ### Re-imaging your raspberry PI or adding another Smart Mirror to your pipeline
 
@@ -293,7 +293,7 @@ In case there is need to re-image your current Pi or add another smart mirror to
 
 * Follow [Configure SSM Agent for your Raspberry PI](SMARTMIRROR.md#Configure-Systems-Manager-Agent-for-your-Raspberry-Pi) also add necessary Tags
 
-5. Trigger code build in your pipeline to get SW in device - you can do this by committing/pushing change in your repo or just re-trigger some previous deployment in AWS CodeDeploy with "Release change"
+5. Trigger code build in your pipeline to get SW in device - you can do this by committing/pushing change in your repo or just re-trigger some previous deployment in AWS CodeDeploy console with "Release change"
 
 After this Smart Mirror SW is automatically deployed to your new Raspberry Pi (You can check progress in CodeDeploy and CodeStart services)
 
