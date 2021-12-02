@@ -25,7 +25,7 @@ or
 
 The challenge is to update this to something else you like.
 
-Please see additional information how the simple smart mirror works in this [documentation](docs/HOW_IT_WORKS.md)
+Please see additional information how the simple smart mirror works in this [documentation](HOW_IT_WORKS.md)
 
 Additional details on how to work with Git: https://docs.gitlab.com/ee/gitlab-basics/
 And further details on Cloud9 IDE https://docs.aws.amazon.com/cloud9/latest/user-guide/source-control-gitpanel.html
@@ -60,7 +60,7 @@ On our example mirror "activation color" is yellow (What mirror reacts when you 
 
 The challenge is to update this to something else you like.
 
-Please see additional information how the simple smart mirror works in this [documentation](docs/HOW_IT_WORKS.md)
+Please see additional information how the simple smart mirror works in this [documentation](HOW_IT_WORKS.md)
 
 Additional details on how to work with Git: https://docs.gitlab.com/ee/gitlab-basics/
 And further details on Cloud9 IDE https://docs.aws.amazon.com/cloud9/latest/user-guide/source-control-gitpanel.html
@@ -100,7 +100,7 @@ In the previous challenge you learned how to change the color when your Alexa is
 In this challenge we want to explore how we can light up all LEDs with a color of our choosing with the help of Alexa. We want you to
 say something like "Change color to blue". So after activating the smart mirror skill with "Alexa, open unicorn" (or your invocation word) - say "Change color to blue". The LEDs should then turn blue.
 
-Please see additional information how the simple smart mirror works in this [documentation](docs/HOW_IT_WORKS.md)
+Please see additional information how the simple smart mirror works in this [documentation](HOW_IT_WORKS.md)
 
 There are 3 main problems to solve for this challenge. 1/ How can I tell Alexa what color I want and 2/ how can the Alexa device tell our gadget (the Raspberry Pi) that it should do something and 3/ How will I change the user input "Purple" into something the LEDs strip understands.
 
@@ -239,7 +239,7 @@ In this challenge we build a clock logic that shows time with LED's lit as follo
 - blue is minute
 - red is hour
 
-Please see additional information how the simple smart mirror works in this [documentation](docs/HOW_IT_WORKS.md)
+Please see additional information how the simple smart mirror works in this [documentation](HOW_IT_WORKS.md)
 
 For clock activity you need to modify following files:
 
@@ -361,7 +361,7 @@ Challenge is to add to your clock a logic that opens when you say "show clock" i
 
 And make this activate with `invocation` / sample "show clock"
 
-Please see additional information how the simple smart mirror works in this [documentation](docs/HOW_IT_WORKS.md)
+Please see additional information how the simple smart mirror works in this [documentation](HOW_IT_WORKS.md)
 
 To add invocation word to your clock you need to modify following files:
 
