@@ -87,7 +87,7 @@ And further details on Cloud9 IDE https://docs.aws.amazon.com/cloud9/latest/user
                 elif state.value == 'cleared':
                     logger.info('Wake word cleared')
                     self.startAction(self.lastAction)
-                    ```
+```                    
 
 3. Add, commit and push your code
 ```
