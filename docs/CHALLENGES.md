@@ -71,14 +71,23 @@ And further details on Cloud9 IDE https://docs.aws.amazon.com/cloud9/latest/user
   <summary>See Answer How to update Activation Color</summary>
 
 1. Open Cloud9 IDE and browse to your smart-mirror source code
-2. Update value for webcolors.name_to_rgb('`yellow`') in script/agt_smart_mirror.py to something you like better (example `red`)
+2. Update value for webcolors.name_to_rgb('`yellow`') in script/agt_smart_mirror.py in function  `on_alexa_gadget_statelistener_stateupdate` to something you like better (example `purple`)
 
 ```python
-        #default options for show color as a reference
-        self.showColorOptions = {
-            'color': webcolors.name_to_rgb('yellow') # Change this to color of your choosing
-        }
-```
+    def on_alexa_gadget_statelistener_stateupdate(self, directive):
+        """
+        This will trigger when your connected Alexa device changes state. Here we listening for your Alexa to react to you saying "Alexa..." or "Echo..."
+        """
+        for state in directive.payload.states:
+            if state.name == 'wakeword':
+                if state.value == 'active':
+                    logger.info('Wake word active')
+                    self.showColorOptions['color'] = webcolors.name_to_rgb('purple') #This is updated color
+                    self.startAction(Actions.ShowColor)
+                elif state.value == 'cleared':
+                    logger.info('Wake word cleared')
+                    self.startAction(self.lastAction)
+                    ```
 
 3. Add, commit and push your code
 ```
