@@ -25,21 +25,19 @@ Please see [Create and activate AWS Account](https://aws.amazon.com/premiumsuppo
 
 ## AWS costs from this project
 
-This solution will add cost as per consumed services (Code*, SSM, Cloud9 (micro EC2 instance, S3, EBS))
-- Used services are [AWS Free Tier eligible](https://aws.amazon.com/free/) `for a new AWS accounts`
+This solution will incur cost based on your usage.
+- Used services are [AWS Free Tier eligible](https://aws.amazon.com/free/)
 
 Free tier covers:
-* EC2 for Cloud9 (running only when IDE is active - by default it shuts down after 30 minutes)
-* Persistent storage need (S3 Artifacts + EBS for Cloud9)
-* Data Transfer out is free up to 100GB (more than sufficient to Smart Mirror)
+* EC2 for Cloud9 (running only when IDE is used - by default it shuts down after 30 minutes)
+* Persistent storage (S3 Artifacts + EBS for Cloud9)
+* Data Transfer out is free up to 100GB
 * One active AWS CodePipeline
 
 Additional costs:
-Per on premise (Raspberry Pi) deployment there is cost of 2 cents per deployment/update for AWS CodeDeploy
+There is cost per on-premise AWS CodeDeploy deployment as per https://aws.amazon.com/codedeploy/pricing/ 
 
-Estimation of cost outside of Free Tier is less than 1$ per moth - depending mainly of amount of updates you make.
-
-> **_NOTE:_** If you activate Advanced instance tier for SSM then that incurs `$0.00695` per advanced on-premises instance per hour (~5$ in month) - This is NOT required for Smart Mirror and should not be activated with SSM if you want to avoid the cost. See https://aws.amazon.com/systems-manager/pricing/ for additional details.
+Estimation of cost outside of Free Tier is less than 1$ per month - depending on number of deployments you make.
 
 ## Hardware shopping list for Smart Mirror
 
