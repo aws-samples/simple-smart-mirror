@@ -10,14 +10,16 @@ Link to smart mirror [Provision and Management](docs/images/smart-mirror-archite
 
 ## The Simple Smart Mirror
 
-“The Simple Smart Mirror” is an Alexa voice controlled programmable LED strip with additional smarts: made by builders for builders and their kids. It is NOT just a typical mirror with LED’s. The Simple Smart Mirror is integrated with AWS CI/CD pipeline and serverless backend, including management of Raspberry Pi in your home network. 
-The project focuses in a learning experience - something a parents can do with their kids.
+“The Simple Smart Mirror” is an Alexa voice controlled programmable LED strip with additional smarts: made by builders for builders and their kids. It is _NOT_ just a typical mirror with LED’s. The Simple Smart Mirror is integrated with AWS CI/CD pipeline and serverless backend, including management of Raspberry Pi in your home network. 
+The project focuses on a learning experience - something a parents can do with their kids.
 
 The Simple Smart Mirror project can be divided in four high level categories:
    1. Hardware and electronics 
-   * Raspberry Pi, Adafruit Neopixel LED Strip, Amazon Echo 
-   2. AWS Services - serverless back-end with full blown CI/CD pipeline 
-   * AWS: CodeCommit, CodeDeploy, CodePipeline, CodeStar, Cloud9 IDE (EC2+EBS), CloudFormation, Systems Manager, Lambda and S3
+      
+      Raspberry Pi, Adafruit Neopixel LED Strip, Amazon Echo 
+   2. AWS Services - serverless back-end with full blown CI/CD pipeline: 
+      
+      AWS: CodeCommit, CodeDeploy, CodePipeline, CodeStar, Cloud9 IDE (EC2+EBS), CloudFormation, Systems Manager, Lambda and S3
    3. Alexa Gadget and Alexa Skills as an interface to control the hardware
    4. Learning and experiment platform - with basic infrastructure set up you can easily experiment and add new functionality. Take our guided challenges to get you started 
 
@@ -25,7 +27,7 @@ Under the hood the Smart Mirror works like this: Code is updated in repository -
 
 The main user interaction happens between the Echo Device and the user, where commands are sent over bluetooth to the Alexa Gadget (Raspberry Pi). 
 
-To make this truly an learning experience - instead of giving out all building blocks there are guided challenges - add or customize existing functionality for example invocation word, clock function or timer.
+To make this truly an learning experience we do not hand you the full solution, but provide guided challenges. These challenges will help you to add or customize existing functionality for example invocation word, clock function or timer.
 
 ## Repository structure
 
@@ -46,7 +48,7 @@ It is as easy as 1, 2, 3. Follow the step below to set up the hardware and requi
 
 `3rd` Deploy AWS services and Alexa skill, see [AWS Cloud Services and Alexa deployment](docs/SMARTMIRROR.md)
 
-Next proceed to creating challenges and adding functionality to your smart mirror.
+Next proceed to our coding challenges and add functionality to your smart mirror.
 
 ## Challenges
 
