@@ -79,7 +79,7 @@ To build that you will need to do following:
 ### Define an Action
 
 The Actions enumeration looks like this.
-```
+```python
 class Actions(Enum):
     Off = 0
     Rainbow = 1
@@ -104,11 +104,11 @@ Note on the loop()-function:
 
 From the user perspective one should be able to execute an intent (command) that should be able to run indefinitely or until user cancels it with Alexa cancel command. This is the purpose of a loop()-function. In order to be able to handle intents (commands) within the loop()-function, we have startAction(Action) and stopAction(Action) helper functions that will feed data to the loop()-function via global variables.
 
-This is also why the execution in the smart_mirror.<method()> needs to be short as it will block the cycle of the loop until the method is done. For prolongued execution of a capability (from the users perspective) you need to either implement simple repetitive patterns or implement state handling in the loop()-function.
+This is also why the execution in the smart_mirror.<method()> needs to be short as it will block the cycle of the loop until the method is done. For prolonged execution of a capability (from the users perspective) you need to either implement simple repetitive patterns or implement state handling in the loop()-function.
 ```
 
 Add your function call to `if self.keep_cycling:` block. Make sure the function is called only when `self.currentAction` is set to value of your Action. Something like this (replace <YourAction> and <YourMethod> with your actual Action- and method names):
-```
+```python
             if self.keep_cycling:
                 logger.info('Something is on')
                 try:
@@ -135,7 +135,7 @@ In current implementation, to simplify the code, building directives is broken o
 
 In it's simplest form, building a directive or can be accomplished with following method:
 
-```
+```python
 def build_my_directive(endpoint_id):
     return SendDirectiveDirective(
         header=Header(namespace='Custom.SmartMirror', name='<MyDirective>'),
@@ -148,7 +148,7 @@ Namespace is currently 'Custom.SmartMirror' and it must be the same as configure
 
 Now that the directive helper is done we can implement the handler with following code:
 
-```
+```python
 @skill_builder.request_handler(can_handle_func=is_intent_name("<MyIntent>"))
 def police_intent_handler(handler_input: HandlerInput):
     logger.info("Received MyIntentIntent.")
@@ -172,7 +172,7 @@ A handler method can have any name. It will be triggered by the annotation above
 ```
 
 When the handler method is executed, we are getting the `HandlerInput` object that contains session attributes that we need for getting endpointid and response_builder helper to build the response. The code section below does exactly that: 
-```
+```python
     session_attr = handler_input.attributes_manager.session_attributes
     endpoint_id = session_attr['endpointId']
 
@@ -180,7 +180,7 @@ When the handler method is executed, we are getting the `HandlerInput` object th
 ```
 Then we use those to build the response and return it:
 
-```
+```python
 return (response_builder
             .speak("<amazon:emotion name=\"excited\" intensity=\"high\">Wooooop wooooop!</amazon:emotion>") ### Here we make Alexa respond once we gave our command
             .add_directive(build_police_directive(endpoint_id)) ### Here we call the directive helper and pass the endpoint id
@@ -194,7 +194,7 @@ Final step is to create the intent.
 
 In `interactionModels/custom/en-US.json` add following code to `interactionModel.languageModel.intents[]`-array:
 
-```
+```json
         {
             "name": "<MyIntent>",
             "slots": [],
