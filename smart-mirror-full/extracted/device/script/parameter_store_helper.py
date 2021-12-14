@@ -100,4 +100,4 @@ def fetch_and_store_parameters():
 
 def get_parameters():
     text_file = open('/home/smart-mirror/conf.yml', 'r')
-    return yaml.load(text_file)
+    return yaml.safe_load(text_file)

@@ -232,10 +232,11 @@ class SmartMirror:
         secondpixel = (now.second // (60 // num_pixels) % num_pixels) # Adapt to non 60 led count if needed
         hourpixel = (hourval * 60 + minutepixel) // 12 # Adjusted position relative to minutes   
 
-        ## Define used colors for pixels - using webcolors library for mapping
+        ## Define used colors
         hourcolor = webcolors.name_to_rgb('red')
         minutecolor = webcolors.name_to_rgb('blue')
         secondcolor = webcolors.name_to_rgb('green')
+
         ## Turn on hour - minute - second pixels
         self.showPixel(hourpixel,hourcolor)
         self.showPixel(minutepixel,minutecolor)
