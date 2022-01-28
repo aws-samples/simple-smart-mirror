@@ -770,7 +770,7 @@ currentTime = round(datetime.now().timestamp())
 
 </details>
 
-<details><summary>2. Convering the number into binary representation and making an array</summary>
+<details><summary>2. Converting the number into binary representation and making an array</summary>
 
 Let's convert it and make an array in one go using the `list()`-function
 (Here below, we know that we won't need more than 32bits to fit the decimal number that represents seconds from 1970-01-01 to 2038)
