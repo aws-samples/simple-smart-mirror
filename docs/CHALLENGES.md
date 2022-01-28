@@ -11,6 +11,7 @@
 - [Make Clock Respond to Invocation word "show clock"](#make-clock-respond-to-invocation-word-show-clock)
 - [Update and add clock invocation intents/samples](#update-and-add-clock-invocation-intentssamples)
 - [Visualize Timer with LEDs](#visualize-timer-with-leds)
+- [Create binary visualization of seconds since Epoch](#create-binary-visualization-of-seconds-since-epoch)
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 > NOTE! If you ever get stuck when doing challenges you can compare with what is available in `smart-mirror-full/extracted` folder in this repository
@@ -226,7 +227,7 @@ Another interesting aspect of this piece of code is when we send text to the Ale
 
 When the Alexa device receives the ShowColor directive from the Skill it knows to forward it to the Gadget. This is because we have configured the Alexa device to notify the Gadget by adding the namespace "Custom.SmartMirror" in device/script/smart*mirror_service_start.ini (This has happened as part of the initial setup). All we have to do now is to follow a convention for the function that is supposed to receive the directive: on*{namespace}\_{name}. The function name needs to be lower case and replace the "." with an underscore.
 The directive contains the color the user selected in the payload. The last thing to do now is to convert the color name to an RGB value and start the ShowColor action on the LEDs.
-Check out the _loop_ function in /device/script/agt_smart_mirror.py to see what happens when you call _self.startAction(Actions.ShowColor)_. The actual function that changes the color on the LED strip can be found in /device/script/smart_mirror.py -> _showColor_
+Check out the _loop_ function in /device/script/agt*smart_mirror.py to see what happens when you call \_self.startAction(Actions.ShowColor)*. The actual function that changes the color on the LED strip can be found in /device/script/smart*mirror.py -> \_showColor*
 
 5. Add, commit and push your code
 
@@ -600,7 +601,7 @@ Here we initialize the timer options we will be using later. You can ignore most
             self.smart_mirror.showColor(self.showTimerOptions['color'])
 ```
 
-Now the loop is aware of the Timer action and if the action is active it will call the _getCurrentTimerPosition_ function. We will implement this function shortly. If the _getCurrentTimerPosition_ function returned a valid value we use the existing function _showRange_ of device/script/smart_mirror.py. The function lights up LEDs from index 0 to the variable timerPosition. If your LED strip has 60 LEDs and the timer is set for 10 minutes you should get a timerPosition=30 when there 5 minutes left on the timer. Also notice that we are using the color of the previous defined _showTimerOptions_ variable.
+Now the loop is aware of the Timer action and if the action is active it will call the _getCurrentTimerPosition_ function. We will implement this function shortly. If the _getCurrentTimerPosition_ function returned a valid value we use the existing function _showRange_ of device/script/smart*mirror.py. The function lights up LEDs from index 0 to the variable timerPosition. If your LED strip has 60 LEDs and the timer is set for 10 minutes you should get a timerPosition=30 when there 5 minutes left on the timer. Also notice that we are using the color of the previous defined \_showTimerOptions* variable.
 
 6. Before we implement the _getCurrentTimerPosition_ let us look at how we can be notified when a new timer has been set. For this add the following two functions to the SmartMirror Gadget:
 
@@ -649,8 +650,8 @@ Now the loop is aware of the Timer action and if the action is active it will ca
         self.startAction(self.defaultAction)
 ```
 
-To hook up to the events sent by the Alexa device we have to implement on_alerts_setalert and on_alerts_deletealert. You can read up about the interface [here](https://developer.amazon.com/en-US/docs/alexa/alexa-gadgets-toolkit/alerts-interface.html). The delete method is easy, when a timer is cancelled or elapsed we want to show the default action that we specified in the options (Clock, Rainbow or whatever you have configured).
-The setalert function is mainly used to parse the directive. We need to find out when the timer was started and when it will finish. We need to store this data somewhere so we can calculate the timer position in _getCurrentTimerPosition_. We are using the timer options for that. The code also contains a couple of safegurads. It checks for example if there is already another timer running, if so the old one is replaced as we can only visualize one timer at a time with the current implementation.
+To hook up to the events sent by the Alexa device we have to implement on*alerts_setalert and on_alerts_deletealert. You can read up about the interface [here](https://developer.amazon.com/en-US/docs/alexa/alexa-gadgets-toolkit/alerts-interface.html). The delete method is easy, when a timer is cancelled or elapsed we want to show the default action that we specified in the options (Clock, Rainbow or whatever you have configured).
+The setalert function is mainly used to parse the directive. We need to find out when the timer was started and when it will finish. We need to store this data somewhere so we can calculate the timer position in \_getCurrentTimerPosition*. We are using the timer options for that. The code also contains a couple of safegurads. It checks for example if there is already another timer running, if so the old one is replaced as we can only visualize one timer at a time with the current implementation.
 
 > Extra Challenge: Can you think of a way that makes it possibilities to visualize 2 timers at the same time?
 
@@ -692,7 +693,7 @@ git push
 
 ---
 
-## Create binary visualization of seconds since Epoch (1970-01-01 00:00:00)
+## Create binary visualization of seconds since Epoch
 
 This challenge visualizes seconds passed since [Epoch](https://en.wikipedia.org/wiki/Unix_time). Since we only have a LED strip, we can use same principle on which computers operate.
 That is binary number system that maps perfectly to simulate electrical charge state "charged or not", or electrical switches which can be "on" or "off".
